@@ -2,7 +2,8 @@ import sys
 import pathlib
 
 from PySide6.QtCore import QSize, Qt, Slot
-from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QFrame
+from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QFrame, QWidget
+from PySide6.QtGui import QPixmap
 
 PATH = pathlib.Path(__file__)
 RESOURCES = PATH.parent.joinpath('Resources')
@@ -29,11 +30,17 @@ class MainWindow(QMainWindow):
         # Status bar
         self.status = self.statusBar()
 
-        self.connectionStatusWidget = QLabel('Not connected')
+        self.connectionStatusWidget = QLabel('This is a status bar')
         self.status.addWidget(self.connectionStatusWidget)
 
 
-        widget = QFrame(self)
+        self.arnold = QLabel(self)
+        arnold = QPixmap(RESOURCES.joinpath('Arnold.jpg'))
+        arnold = arnold.scaled(QSize(self.width(), self.height()))
+        self.arnold.setPixmap(arnold)
+
+
+        widget = self.arnold
         self.setCentralWidget(widget)
 
 
