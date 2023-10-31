@@ -1,12 +1,13 @@
 import sys
-import pathlib
+
 
 from PySide6.QtCore import QSize, Qt, Slot
-from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QFrame, QWidget
-from PySide6.QtGui import QPixmap
+from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QWidget
 
-PATH = pathlib.Path(__file__)
-RESOURCES = PATH.parent.joinpath('Resources')
+
+from Combat.layout import CombatWindow
+from common import *
+
 
 # Subclass QMainWindow to customize your application's main window
 class MainWindow(QMainWindow):
@@ -34,13 +35,7 @@ class MainWindow(QMainWindow):
         self.status.addWidget(self.connectionStatusWidget)
 
 
-        self.arnold = QLabel(self)
-        arnold = QPixmap(RESOURCES.joinpath('Arnold.jpg'))
-        arnold = arnold.scaled(QSize(self.width(), self.height()))
-        self.arnold.setPixmap(arnold)
-
-
-        widget = self.arnold
+        widget = CombatWindow(self)
         self.setCentralWidget(widget)
 
 
@@ -56,8 +51,8 @@ if __name__ == "__main__":
     w = MainWindow()
     w.show()
     
-    with open(f'{RESOURCES}\\styleVariables.txt', 'r') as f: varList = f.readlines()
-    with open(f'{RESOURCES}\\style.qss', 'r') as f: styleSheet = f.read()
+    with open(STYLEVAR, 'r') as f: varList = f.readlines()
+    with open(STYLE, 'r') as f: styleSheet = f.read()
     for var in varList:
         name, value = var.split('=')
         styleSheet = styleSheet.replace(name, value)

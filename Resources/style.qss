@@ -20,3 +20,11 @@ QSpinBox {
 QFrame {
     background-color: @widgetBackground;
 }
+
+QLabel {
+    border: 2px groove red;
+}
+
+QStackedWidget {
+    border: 2px groove gray;
+}
