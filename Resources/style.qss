@@ -1,28 +1,14 @@
 
-QLabel#DataWidget {
-    background-color: @widgetBackground;
-    padding: 10px;
-    font-size: 15px;
-    border: 2px groove gray;
-    border-radius: 5px;
+QLabel#MenuWidget {
+    border: 2px groove @mainMenuBorderColor;
 }
 
-QPushButton, QSpinBox {
-    background-color: @widgetBackground;
-    padding: 10px;
-    font-size: 15px;
+QLabel#MenuWidget:hover {
+    background-color: @mainMenuHoverColor;
 }
 
-QSpinBox {
-    background-color: white;
-}
-
-QFrame {
-    background-color: @widgetBackground;
-}
-
-QLabel {
-    border: 2px groove red;
+QLabel#MenuWidget:active {
+    background-color: black;
 }
 
 QStackedWidget {

@@ -1,1 +1,2 @@
-@widgetBackground=None
+@mainMenuBorderColor=gray
+@mainMenuHoverColor=darkGray

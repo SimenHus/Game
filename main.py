@@ -2,10 +2,12 @@ import sys
 
 
 from PySide6.QtCore import QSize, Qt, Slot
-from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QWidget
+from PySide6.QtGui import QCloseEvent, QKeyEvent
+from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QWidget, QStackedWidget
 
 
-from Combat.layout import CombatWindow
+from Combat.CombatEngine import Combat
+from Menu.MainMenu import MainMenu
 from common import *
 
 
@@ -35,16 +37,38 @@ class MainWindow(QMainWindow):
         self.status.addWidget(self.connectionStatusWidget)
 
 
-        widget = CombatWindow(self)
-        self.setCentralWidget(widget)
+        self.MainMenu = MainMenu()
+        self.CombatHandler = Combat()
+
+        self.MainMenu.startButton.pressed.connect(self.startGame)
+        self.MainMenu.exitButton.pressed.connect(self.exit)
+
+        self.widget = QStackedWidget(self)
+        self.widget.addWidget(self.MainMenu)
+        self.widget.addWidget(self.CombatHandler)
+        self.setCentralWidget(self.widget)
 
 
     @Slot()
+    def startGame(self) -> None:
+        self.widget.setCurrentWidget(self.CombatHandler)
+
+    @Slot()
+    def mainMenu(self) -> None:
+        self.widget.setCurrentWidget(self.MainMenu)
+
+    @Slot()
     def exit(self) -> None:
-        print('Exiting...')
         self.close()
 
+    def closeEvent(self, event: QCloseEvent) -> None:
+        print('Exiting...')
+        
 
+    def keyPressEvent(self, event: QKeyEvent) -> None:
+        if event.isAutoRepeat(): return
+        key = event.keyCombination().key()
+        if key == Qt.Key.Key_Escape: self.mainMenu()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
