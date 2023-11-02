@@ -6,8 +6,7 @@ from PySide6.QtGui import QCloseEvent, QKeyEvent
 from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QWidget, QStackedWidget
 
 
-from Combat.CombatEngine import Combat
-from Menu.MainMenu import MainMenu
+from Modules.GUI import TitleScreen, SettingsWindow, CombatWindow
 from common import *
 
 
@@ -37,25 +36,31 @@ class MainWindow(QMainWindow):
         self.status.addWidget(self.connectionStatusWidget)
 
 
-        self.MainMenu = MainMenu()
-        self.CombatHandler = Combat()
+        self.TitleScreen = TitleScreen()
+        self.CombatWindow = CombatWindow()
+        self.SettingsWindow = SettingsWindow()
 
-        self.MainMenu.startButton.pressed.connect(self.startGame)
-        self.MainMenu.exitButton.pressed.connect(self.exit)
+        self.TitleScreen.startButton.pressed.connect(self.startGame)
+        self.TitleScreen.exitButton.pressed.connect(self.exit)
 
         self.widget = QStackedWidget(self)
-        self.widget.addWidget(self.MainMenu)
-        self.widget.addWidget(self.CombatHandler)
+        self.widget.addWidget(self.TitleScreen)
+        self.widget.addWidget(self.CombatWindow)
+        self.widget.addWidget(self.SettingsWindow)
         self.setCentralWidget(self.widget)
 
 
     @Slot()
     def startGame(self) -> None:
-        self.widget.setCurrentWidget(self.CombatHandler)
+        self.widget.setCurrentWidget(self.CombatWindow)
 
     @Slot()
     def mainMenu(self) -> None:
-        self.widget.setCurrentWidget(self.MainMenu)
+        self.widget.setCurrentWidget(self.TitleScreen)
+
+    @Slot()
+    def enterSettings(self) -> None:
+        self.widget.setCurrentWidget(self.SettingsWindow)
 
     @Slot()
     def exit(self) -> None:
